@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rishi's Web Operating System</title>
+    <style>
+        body{
+            background-image:url("CyberPunk\ Image.webp") ;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .WelcomeScreen{
+            display: grid;
+            place-items: center;
+            align-items: center;
+            width: 100vw;
+            height: 90vh;
+            position: fixed;
+        }
+
+        .WelcomeScreen h1{
+            text-align: center;
+            margin: 0;
+            font-size: 50px;
+            background-color: black;
+            border-radius: 8px;
+            animation: fadeOut 3s ease-in-out forwards;
+        }
+        @keyframes fadeOut {
+            0%{
+                opacity: 1;
+            }
+            100%{opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="WelcomeScreen" style="color: aqua;">
+        <h1>Welcome To Rishi's Operating System
+    </div>
+</body>
+</html>
