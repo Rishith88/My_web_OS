@@ -291,6 +291,11 @@
             <img src="stopwatch.png" alt="Stopwatch">
             <span class="app-badge">Open</span>
         </button>
+
+        <button class="appIcon" id="calendar-icon" title="Calendar">
+            <img src="calendar.png" alt="Calendar">
+            <span class="app-badge">Open</span>
+        </button>
     </div>
 
     <!-- Calculator window -->
@@ -319,10 +324,24 @@
         <iframe id="stopwatch-frame" title="Stopwatch"></iframe>
     </div>
 
+    <!-- Calendar window -->
+    <div class="os-window" id="calendar-window" style="left:300px; top:140px; width:420px; height:320px;">
+        <div class="titlebar" id="calendar-titlebar">
+            <span>Calendar</span>
+            <div class="win-btns">
+                <button class="win-btn" id="calendar-min" title="Minimize">&#8212;</button>
+                <button class="win-btn" id="calendar-max" title="Maximize">&#9633;</button>
+                <button class="win-btn close" id="calendar-close" title="Close">&#10005;</button>
+            </div>
+        </div>
+        <iframe id="calendar-frame" title="Calendar"></iframe>
+    </div>
+
     <!-- Taskbar -->
     <div class="taskbar">
         <button class="task-item" id="calc-task"><img src="calculater.png" alt="">Calculator</button>
         <button class="task-item" id="stopwatch-task"><img src="stopwatch.png" alt="">Stopwatch</button>
+        <button class="task-item" id="calendar-task"><img src="calendar.png" alt="">Calendar</button>
     </div>
 
     <script>
@@ -416,6 +435,7 @@
 
         createApp('calc', 'calculater.html');
         createApp('stopwatch', 'stopwatch.html');
+        createApp('calendar', 'calendar.html');
     </script>
 
     <script>
