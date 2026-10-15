@@ -101,10 +101,29 @@
                     <input type="button" value="=" onclick="display.value=eval(display.value)" class="EqualTo">
                     
                 </div>
+                 <script src="draggable.js"></script>
+    <script>
+        
+        makeWindowDraggable("calcWindow", "calcHeader");
+
+        
+        document.getElementById("calcHeader").addEventListener("mousedown", function() {
+            var win = document.getElementById("calcWindow");
+            if(win.style.transform !== "none") {
+                // Read current computed offset positions before stripping transformation matrix
+                var rect = win.getBoundingClientRect();
+                win.style.transform = "none";
+                win.style.top = rect.top + "px";
+                win.style.left = rect.left + "px";
+            }
+        });
+    </script>
                 
                
             </form>
         </div>
     </div>
+    <script src="windows-manager.js"></script>
+
 </body>
 </html>
