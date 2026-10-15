@@ -5,63 +5,461 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rishi's Web Operating System</title>
     <style>
-        body{
-            background-image:url("CyberPunk\ Image.webp") ;
+        body {
+            background-image: url("CyberPunk Image.webp");
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
             background-attachment: fixed;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
         }
-        .WelcomeScreen{
+
+        .top-navbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            gap: 20px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .navbar-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .navbar-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .desktop-widgets {
+            position: absolute;
+            right: 40px;
+            top: 40%;
+            transform: translateY(-50%);
+            text-align: right;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        #desktop-date {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+
+        #desktop-clock {
+            font-size: 72px;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .WelcomeScreen {
             display: grid;
             place-items: center;
             align-items: center;
             width: 100vw;
             height: 90vh;
             position: fixed;
+            z-index: 15;
+            pointer-events: none;
         }
 
-        .WelcomeScreen h1{
+        .WelcomeScreen h1 {
             text-align: center;
             margin: 0;
             font-size: 50px;
+            color: aqua;
             background-color: black;
             border-radius: 8px;
+            padding: 15px 30px;
             animation: fadeOut 3s ease-in-out forwards;
         }
-        @keyframes fadeOut {
-            0%{
-                opacity: 1;
-            }
-            100%{opacity: 0;
-            }
-        }
-        .calculaterApp img{
-            width: 35px;
-        height: 35px;        }
 
-         .desktop-grid {
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .desktop-grid {
             position: relative;
             z-index: 10;
             padding: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
         }
 
-        .calculaterApp{
+        /* desktop icons (calculator + stopwatch share these rules) */
+        .appIcon img {
+            width: 35px;
+            height: 35px;
+        }
+
+        .appIcon {
             cursor: pointer;
+            background: transparent;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .appIcon:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .app-badge {
+            display: none;
+            font-size: 10px;
+            background: green;
+            color: wheat;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .appIcon.running .app-badge {
+            display: inline-block;
+        }
+
+        .os-window {
+            position: fixed;
+            left: 120px;
+            top: 80px;
+            width: 360px;
+            height: 560px;
+            min-width: 280px;
+            background: black;
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,.6);
+            z-index: 30;
+            transition: opacity .2s, transform .2s, width .15s, height .15s, left .15s, top .15s;
+        }
+        .os-window.open {
+            display: flex;
+        }
+        .os-window.dragging {
+            transition: none;
+        }
+        .os-window.minimized {
+            opacity: 0;
+            transform: translateY(60vh) scale(.5);
+            pointer-events: none;
+        }
+        .os-window.maximized {
+            border-radius: 0;
+        }
+        .titlebar {
+            height: 36px;
+            flex: 0 0 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,.55);
+            color: white;
+            padding: 0 6px 0 12px;
+            cursor: move;
+            user-select: none;
+            font-size: 14px;
+        }
+        .titlebar.nodrag {
+            cursor: default;
+        }
+        .win-btns {
+            display: flex;
+            gap: 4px;
+        }
+        .win-btn {
+            width: 32px;
+            height: 26px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .win-btn:hover {
+            background: rgba(255,255,255,.18);
+        }
+        .win-btn.close:hover {
+            background: red;
+        }
+        .os-window iframe {
+            flex: 1;
+            width: 100%;
+            border: 0;
+            background: darkslateblue;
+        }
+        .os-window.dragging iframe {
+            pointer-events: none;
+        }
+
+        .taskbar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 44px;
+            background: rgba(0,0,0,.55);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .task-item {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            height: 34px;
+            padding: 0 12px;
+            color: white;
+            background: rgba(255,255,255,.08);
+            border: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .task-item img {
+            width: 18px;
+            height: 18px;
+            filter: invert(1);
+        }
+        .task-item.show {
+            display: flex;
+        }
+        .task-item.active {
+            background: rgba(255,255,255,.2);
+            border-bottom-color: aqua;
         }
     </style>
 </head>
 <body>
-    <div class="WelcomeScreen" style="color: aqua;">
-        <h1>Welcome To Rishi's Operating System
+
+    <div class="top-navbar">
+        <div class="navbar-item">
+            <svg class="navbar-icon" viewBox="0 0 24 24">
+                <path d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1-11h-2v6l5.25 3.15.75-1.23-4.5-2.67V9z"/>
+            </svg>
+            <span id="screen-timer">00:00:00</span>
+        </div>
     </div>
+
+    <div class="desktop-widgets">
+        <div id="desktop-date">Loading Date...</div>
+        <div id="desktop-clock">00:00:00 AM</div>
+    </div>
+
+    <div class="WelcomeScreen">
+        <h1>Welcome To Rishi's Operating System</h1>
+    </div>
+
+    <!-- Desktop icons -->
     <div class="desktop-grid">
-         <a href="calculater.html" style="text-decoration: none;">
-             <button class="calculaterApp">
-            <img src="calculater.png" alt="Calculater">    
-            </button>
-         </a>
-       
+        <button class="appIcon" id="calc-icon" title="Calculator">
+            <img src="calculater.png" alt="Calculator">
+            <span class="app-badge">Open</span>
+        </button>
+
+        <button class="appIcon" id="stopwatch-icon" title="Stopwatch">
+            <img src="stopwatch.png" alt="Stopwatch">
+            <span class="app-badge">Open</span>
+        </button>
     </div>
+
+    <!-- Calculator window -->
+    <div class="os-window" id="calc-window">
+        <div class="titlebar" id="calc-titlebar">
+            <span>Calculator</span>
+            <div class="win-btns">
+                <button class="win-btn" id="calc-min" title="Minimize">&#8212;</button>
+                <button class="win-btn" id="calc-max" title="Maximize">&#9633;</button>
+                <button class="win-btn close" id="calc-close" title="Close">&#10005;</button>
+            </div>
+        </div>
+        <iframe id="calc-frame" title="Calculator"></iframe>
+    </div>
+
+    <!-- Stopwatch window -->
+    <div class="os-window" id="stopwatch-window" style="left:520px; top:80px; width:420px; height:600px;">
+        <div class="titlebar" id="stopwatch-titlebar">
+            <span>Stopwatch</span>
+            <div class="win-btns">
+                <button class="win-btn" id="stopwatch-min" title="Minimize">&#8212;</button>
+                <button class="win-btn" id="stopwatch-max" title="Maximize">&#9633;</button>
+                <button class="win-btn close" id="stopwatch-close" title="Close">&#10005;</button>
+            </div>
+        </div>
+        <iframe id="stopwatch-frame" title="Stopwatch"></iframe>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <button class="task-item" id="calc-task"><img src="calculater.png" alt="">Calculator</button>
+        <button class="task-item" id="stopwatch-task"><img src="stopwatch.png" alt="">Stopwatch</button>
+    </div>
+
+    <script>
+        const TASKBAR = 44;
+        let topZ = 30;   // used to bring the clicked window to the front
+
+        // One function sets up one app. Call it once per app.
+        // id = the prefix used in the HTML ids, url = the page shown in the iframe
+        function createApp(id, url) {
+            const win = document.getElementById(id + '-window');
+            const bar = document.getElementById(id + '-titlebar');
+            const frame = document.getElementById(id + '-frame');
+            const icon = document.getElementById(id + '-icon');
+            const task = document.getElementById(id + '-task');
+            const maxBtn = document.getElementById(id + '-max');
+            let saved = null;
+
+            function bringToFront() { win.style.zIndex = ++topZ; }
+            function setRunning(on) {
+                icon.classList.toggle('running', on);
+                task.classList.toggle('show', on);
+            }
+            function refreshTask() {
+                task.classList.toggle('active', win.classList.contains('open') && !win.classList.contains('minimized'));
+            }
+            function openApp() {
+                if (!win.classList.contains('open')) {
+                    frame.src = url;
+                    win.classList.add('open');
+                    setRunning(true);
+                }
+                win.classList.remove('minimized');
+                bringToFront();
+                refreshTask();
+            }
+            function minimizeApp() { win.classList.add('minimized'); refreshTask(); }
+            function closeApp() {
+                if (win.classList.contains('maximized')) toggleMax();
+                win.classList.remove('open', 'minimized');
+                frame.src = 'about:blank';
+                setRunning(false);
+                refreshTask();
+            }
+            function toggleMax() {
+                if (!win.classList.contains('maximized')) {
+                    saved = { l: win.style.left, t: win.style.top, w: win.style.width, h: win.style.height };
+                    win.classList.add('maximized');
+                    win.style.left = '0px'; win.style.top = '0px';
+                    win.style.width = '100vw'; win.style.height = `calc(100vh - ${TASKBAR}px)`;
+                    bar.classList.add('nodrag'); maxBtn.innerHTML = '&#10697;';
+                } else {
+                    win.classList.remove('maximized');
+                    Object.assign(win.style, { left: saved.l, top: saved.t, width: saved.w, height: saved.h });
+                    bar.classList.remove('nodrag'); maxBtn.innerHTML = '&#9633;';
+                }
+            }
+
+            icon.addEventListener('click', openApp);
+            task.addEventListener('click', () => {
+                if (win.classList.contains('minimized')) openApp(); else minimizeApp();
+            });
+            document.getElementById(id + '-min').addEventListener('click', minimizeApp);
+            document.getElementById(id + '-close').addEventListener('click', closeApp);
+            maxBtn.addEventListener('click', toggleMax);
+            bar.addEventListener('dblclick', e => { if (!e.target.closest('.win-btns')) toggleMax(); });
+
+            // the page inside the iframe can ask to close itself (calculator's × does this)
+            window.addEventListener('message', e => { if (e.data === 'close-' + id) closeApp(); });
+
+            // dragging
+            let dx = 0, dy = 0, dragging = false;
+            bar.addEventListener('pointerdown', e => {
+                bringToFront();
+                if (e.target.closest('.win-btns') || win.classList.contains('maximized')) return;
+                const r = win.getBoundingClientRect();
+                dx = e.clientX - r.left; dy = e.clientY - r.top;
+                dragging = true;
+                win.classList.add('dragging');
+                bar.setPointerCapture(e.pointerId);
+            });
+            bar.addEventListener('pointermove', e => {
+                if (!dragging) return;
+                const maxX = window.innerWidth - 60, maxY = window.innerHeight - TASKBAR - 36;
+                win.style.left = Math.min(Math.max(e.clientX - dx, 60 - win.offsetWidth), maxX) + 'px';
+                win.style.top = Math.min(Math.max(e.clientY - dy, 0), maxY) + 'px';
+            });
+            const stopDrag = () => { dragging = false; win.classList.remove('dragging'); };
+            bar.addEventListener('pointerup', stopDrag);
+            bar.addEventListener('pointercancel', stopDrag);
+        }
+
+        createApp('calc', 'calculater.html');
+        createApp('stopwatch', 'stopwatch.html');
+    </script>
+
+    <script>
+        let uptimeSeconds = 0;
+        const timerElement = document.getElementById('screen-timer');
+
+        function runUptimeCounter() {
+            uptimeSeconds++;
+            let hours = Math.floor(uptimeSeconds / 3600);
+            let minutes = Math.floor((uptimeSeconds % 3600) / 60);
+            let seconds = uptimeSeconds % 60;
+
+            let pad = (num) => String(num).padStart(2, '0');
+            timerElement.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        }
+        setInterval(runUptimeCounter, 1000);
+
+        const clockElement = document.getElementById('desktop-clock');
+        const dateElement = document.getElementById('desktop-date');
+
+        function updateSystemTime() {
+            const now = new Date();
+
+            const istTime = now.toLocaleString("en-US", {
+                timeZone: "Asia/Kolkata",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            });
+
+            const istDate = now.toLocaleDateString("en-US", {
+                timeZone: "Asia/Kolkata",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+
+            clockElement.textContent = istTime;
+            dateElement.textContent = istDate;
+        }
+
+        updateSystemTime();
+        setInterval(updateSystemTime, 1000);
+    </script>
 </body>
 </html>
