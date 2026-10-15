@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        .hero {
+            width: 100%;
+            min-height: 100vh;
+            background-color: brown;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar {
+            width: 350px;
+            height: 180px;
+            background-color: blanchedalmond;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .left, .right {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .left {
+            background-color: green;
+            color: white;
+        }
+
+        .right {
+            background-color: blanchedalmond;
+            color: blue;
+        }
+
+        #date {
+            font-size: 48px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="calendar">
+            <div class="left">
+                <p id="date">15</p>
+                <p id="day">Thursday</p>
+            </div>
+
+            <div class="right">
+                <p id="month">October</p>
+                <p id="year">2026</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday",
+                      "Thursday", "Friday", "Saturday"];
+        const months = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"];
+
+        function updateCalendar() {
+            const now = new Date();
+
+            document.getElementById("date").textContent = now.getDate();
+            document.getElementById("day").textContent = days[now.getDay()];
+            document.getElementById("month").textContent = months[now.getMonth()];
+            document.getElementById("year").textContent = now.getFullYear();
+        }
+
+        updateCalendar();
+        
+        setInterval(updateCalendar, 60000);
+    </script>
+</body>
+</html>
