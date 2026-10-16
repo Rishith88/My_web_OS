@@ -78,14 +78,14 @@
         <img src="stop.png" alt="stop" id="stop-btn">
     </div>
 
-    <!-- New Time Change Controls -->
+    
     <div class="time-control">
         <input type="number" id="time-input" placeholder="Minutes" min="1" max="180">
         <button id="set-time-btn">Set Time</button>
     </div>
 
     <script>
-        // Changed to 'let' so it can be updated when a new time is set
+       
         let INITIAL_TIME = 600; 
         let timeLeft = INITIAL_TIME;
         let timerId = null;
@@ -97,7 +97,7 @@
         const timeInput = document.getElementById('time-input');
         const setTimeBtn = document.getElementById('set-time-btn');
 
-        // Function to format seconds into MM:SS format
+        
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
@@ -108,7 +108,7 @@
             countdownEl.textContent = `${formattedMinutes}:${formattedSeconds}`;
         }
 
-        // Start button logic
+        
         startBtn.addEventListener('click', () => {
             if (timerId !== null) return; 
             
@@ -124,13 +124,13 @@
             }, 1000);
         });
 
-        // Stop button logic
+        
         stopBtn.addEventListener('click', () => {
             clearInterval(timerId);
             timerId = null;
         });
 
-        // Reset button logic
+        
         resetBtn.addEventListener('click', () => {
             clearInterval(timerId);
             timerId = null;
@@ -138,7 +138,7 @@
             updateDisplay();
         });
 
-        // Set custom time logic
+        
         setTimeBtn.addEventListener('click', () => {
             const minutes = parseInt(timeInput.value);
             
@@ -147,16 +147,16 @@
                 return;
             }
 
-            // Stop any running timer
+           
             clearInterval(timerId);
             timerId = null;
 
-            // Update times
+           
             INITIAL_TIME = minutes * 60;
             timeLeft = INITIAL_TIME;
             updateDisplay();
 
-            // Clear the input field
+           
             timeInput.value = '';
         });
     </script>
