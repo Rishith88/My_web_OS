@@ -296,6 +296,21 @@
             <img src="calendar.png" alt="Calendar">
             <span class="app-badge">Open</span>
         </button>
+
+        <button class="appIcon" id="timer-icon" title="Timer">
+            <img src="timer.png" alt="Timer">
+            <span class="app-badge">Open</span>
+        </button>
+
+        <button class="appIcon" id="todo-icon" title="Todo App">
+            <img src="todo.png" alt="Todo App">
+            <span class="app-badge">Open</span>
+        </button>
+
+        <button class="appIcon" id="notepad-icon" title="Notepad">
+            <img src="Notepad Icon.png" alt="Notepad">
+            <span class="app-badge">Open</span>
+        </button>
     </div>
 
     <!-- Calculator window -->
@@ -337,11 +352,53 @@
         <iframe id="calendar-frame" title="Calendar"></iframe>
     </div>
 
+    <!-- Timer window -->
+    <div class="os-window" id="timer-window" style="left:200px; top:60px; width:720px; height:540px;">
+        <div class="titlebar" id="timer-titlebar">
+            <span>Timer</span>
+            <div class="win-btns">
+                <button class="win-btn" id="timer-min" title="Minimize">&#8212;</button>
+                <button class="win-btn" id="timer-max" title="Maximize">&#9633;</button>
+                <button class="win-btn close" id="timer-close" title="Close">&#10005;</button>
+            </div>
+        </div>
+        <iframe id="timer-frame" title="Timer"></iframe>
+    </div>
+
+    <!-- Todo window -->
+    <div class="os-window" id="todo-window" style="left:260px; top:90px; width:480px; height:520px;">
+        <div class="titlebar" id="todo-titlebar">
+            <span>Todo App</span>
+            <div class="win-btns">
+                <button class="win-btn" id="todo-min" title="Minimize">&#8212;</button>
+                <button class="win-btn" id="todo-max" title="Maximize">&#9633;</button>
+                <button class="win-btn close" id="todo-close" title="Close">&#10005;</button>
+            </div>
+        </div>
+        <iframe id="todo-frame" title="Todo App"></iframe>
+    </div>
+
+    <!-- Notepad window -->
+    <div class="os-window" id="notepad-window" style="left:180px; top:50px; width:760px; height:580px;">
+        <div class="titlebar" id="notepad-titlebar">
+            <span>Notepad</span>
+            <div class="win-btns">
+                <button class="win-btn" id="notepad-min" title="Minimize">&#8212;</button>
+                <button class="win-btn" id="notepad-max" title="Maximize">&#9633;</button>
+                <button class="win-btn close" id="notepad-close" title="Close">&#10005;</button>
+            </div>
+        </div>
+        <iframe id="notepad-frame" title="Notepad"></iframe>
+    </div>
+
     <!-- Taskbar -->
     <div class="taskbar">
         <button class="task-item" id="calc-task"><img src="calculater.png" alt="">Calculator</button>
         <button class="task-item" id="stopwatch-task"><img src="stopwatch.png" alt="">Stopwatch</button>
         <button class="task-item" id="calendar-task"><img src="calendar.png" alt="">Calendar</button>
+        <button class="task-item" id="timer-task"><img src="timer.png" alt="">Timer</button>
+        <button class="task-item" id="todo-task"><img src="todo.png" alt="">Todo App</button>
+        <button class="task-item" id="notepad-task"><img src="Notepad Icon.png" alt="">Notepad</button>
     </div>
 
     <script>
@@ -436,6 +493,9 @@
         createApp('calc', 'calculater.html');
         createApp('stopwatch', 'stopwatch.html');
         createApp('calendar', 'calendar.html');
+        createApp('timer', 'timer.html');
+        createApp('todo', 'Todo.html');
+        createApp('notepad', 'notepad.html');
     </script>
 
     <script>
