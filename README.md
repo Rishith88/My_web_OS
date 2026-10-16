@@ -28,6 +28,12 @@ Simple calculator but it very much functional .  It Can perform all the + - * / 
 
 ### 3. Calendar
 Mini calendar that shows todays date, day, month and year automatically. Updates every minute.
+### 4 Timer
+A timer that can do countdowns on your wish 
+### 5. Todo App
+A todo app that can list down all your todos
+### 6. Notepad
+A notepad that can be used to list down all you task,or stories or even act as a diary.
 
 ## Files in this project
 
