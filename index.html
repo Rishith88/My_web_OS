@@ -280,7 +280,7 @@
         <h1>Welcome To Rishi's Operating System</h1>
     </div>
 
-    <!-- Desktop icons -->
+    
     <div class="desktop-grid">
         <button class="appIcon" id="calc-icon" title="Calculator">
             <img src="calculater.png" alt="Calculator">
@@ -313,7 +313,7 @@
         </button>
     </div>
 
-    <!-- Calculator window -->
+    
     <div class="os-window" id="calc-window">
         <div class="titlebar" id="calc-titlebar">
             <span>Calculator</span>
@@ -326,7 +326,7 @@
         <iframe id="calc-frame" title="Calculator"></iframe>
     </div>
 
-    <!-- Stopwatch window -->
+    
     <div class="os-window" id="stopwatch-window" style="left:520px; top:80px; width:420px; height:600px;">
         <div class="titlebar" id="stopwatch-titlebar">
             <span>Stopwatch</span>
@@ -339,7 +339,7 @@
         <iframe id="stopwatch-frame" title="Stopwatch"></iframe>
     </div>
 
-    <!-- Calendar window -->
+    
     <div class="os-window" id="calendar-window" style="left:300px; top:140px; width:420px; height:320px;">
         <div class="titlebar" id="calendar-titlebar">
             <span>Calendar</span>
@@ -352,7 +352,7 @@
         <iframe id="calendar-frame" title="Calendar"></iframe>
     </div>
 
-    <!-- Timer window -->
+    
     <div class="os-window" id="timer-window" style="left:200px; top:60px; width:720px; height:540px;">
         <div class="titlebar" id="timer-titlebar">
             <span>Timer</span>
@@ -365,7 +365,7 @@
         <iframe id="timer-frame" title="Timer"></iframe>
     </div>
 
-    <!-- Todo window -->
+    
     <div class="os-window" id="todo-window" style="left:260px; top:90px; width:480px; height:520px;">
         <div class="titlebar" id="todo-titlebar">
             <span>Todo App</span>
@@ -378,7 +378,7 @@
         <iframe id="todo-frame" title="Todo App"></iframe>
     </div>
 
-    <!-- Notepad window -->
+    
     <div class="os-window" id="notepad-window" style="left:180px; top:50px; width:760px; height:580px;">
         <div class="titlebar" id="notepad-titlebar">
             <span>Notepad</span>
@@ -391,7 +391,7 @@
         <iframe id="notepad-frame" title="Notepad"></iframe>
     </div>
 
-    <!-- Taskbar -->
+    
     <div class="taskbar">
         <button class="task-item" id="calc-task"><img src="calculater.png" alt="">Calculator</button>
         <button class="task-item" id="stopwatch-task"><img src="stopwatch.png" alt="">Stopwatch</button>
@@ -403,10 +403,9 @@
 
     <script>
         const TASKBAR = 44;
-        let topZ = 30;   // used to bring the clicked window to the front
+        let topZ = 30;   
 
-        // One function sets up one app. Call it once per app.
-        // id = the prefix used in the HTML ids, url = the page shown in the iframe
+        
         function createApp(id, url) {
             const win = document.getElementById(id + '-window');
             const bar = document.getElementById(id + '-titlebar');
@@ -465,10 +464,10 @@
             maxBtn.addEventListener('click', toggleMax);
             bar.addEventListener('dblclick', e => { if (!e.target.closest('.win-btns')) toggleMax(); });
 
-            // the page inside the iframe can ask to close itself (calculator's × does this)
+        
             window.addEventListener('message', e => { if (e.data === 'close-' + id) closeApp(); });
 
-            // dragging
+        
             let dx = 0, dy = 0, dragging = false;
             bar.addEventListener('pointerdown', e => {
                 bringToFront();
